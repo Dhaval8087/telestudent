@@ -4,9 +4,13 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import './login.css';
 import toastr from 'toastr';
+import PropTypes from 'prop-types';
+const style = {
+    margin: 15,
+};
 class Login extends Component {
-    constructor(props,context) {
-        super(props,context);
+    constructor(props) {
+        super(props);
         this.state = {
             username: 'admin',
             password: 'admin'
@@ -17,7 +21,7 @@ class Login extends Component {
     {
         if(this.state.username==='admin' && this.state.password==="admin")
         {
-           
+           this.context.router.push('/home');
         }
         else 
         {
@@ -63,8 +67,8 @@ class Login extends Component {
         );
     }
 }
-const style = {
-    margin: 15,
-};
 
+Login.contextTypes = {
+    router: PropTypes.object.isRequired
+  };
 export default Login;
