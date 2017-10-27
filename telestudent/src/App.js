@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import ReactDOM from "react-dom";
+import { Router, Route, IndexRoute, hashHistory } from "react-router";
+import RootContainer from './RootContainer';
+import Login from './Authetication/Login';
+import Home from './Home/Home';
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React/Electron</h2>
-        </div>
-        <p className="App-intro">
-          Hello Electron!
-        </p>
-      </div>
+      <Router history={hashHistory}>
+      <Route path="/" component={RootContainer}>
+        <IndexRoute component={Login}></IndexRoute>
+        <Route path="/home"  component={Home}></Route>
+      </Route>
+    </Router>
     );
   }
 }
