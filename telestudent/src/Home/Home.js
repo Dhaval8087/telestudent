@@ -1,45 +1,117 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Datastore from 'nedb';
-
+import MetaData from '../Data';
+import {Tex} from 'react-tex';
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: []
+            data: []
         }
+        this.findTagName = this
+            .findTagName
+            .bind(this);
+        this.insertData = this
+            .insertData
+            .bind(this);
     }
     componentDidMount() {
-       
-        var users = new Datastore({ filename: 'users.db', autoload: true });
-        var scott = {
-            name: 'Scott',
-            twitter: '@ScottWRobinson'
-        };
+        this.loadData();
 
-         users.insert(scott, function(err, doc) {  
-             console.log('Inserted', doc.name, 'with ID', doc._id);
-         });
-        users.find({}).sort({ name: 1 }).exec(function (err, docs) {
-            docs.forEach(function (d) {
-                this.state.users.push(d.name);
-            }.bind(this));
-            this.setState({});
-        }.bind(this));
-        
     }
+    loadData() {
+        var blocks = new Datastore({filename: 'Blocks.db', autoload: true});
 
-    render() {
-        console.log(this.state.users)
-        return (
-            <div>
-                {
-                    this.state.users.map(item => {
-                        return (
-                            <span> {item}</span>
-                        )
-                    })
+        blocks
+            .find({})
+            .exec(function (err, block) {
+                block
+                    .forEach(function (d) {
+                        this
+                            .state
+                            .data
+                            .push(d);
+                    }.bind(this));
+                this.setState({});
+            }.bind(this));
+    }
+    insertData() {
+        var blocks = new Datastore({filename: 'Blocks.db', autoload: true});
+        blocks.remove({}, {
+            multi: true
+        }, function (err, num) {
+            this.state.data = [];
+        }.bind(this));
+        var blocksData = [];
+        var block;
+        block = {
+            metadataId: 1,
+            value: 'https://www.npmjs.com/package/sequential-guid'
+        };
+        blocksData.push(block);
+
+        block = {
+            metadataId: 2,
+            value: 'The <P> element is used to define a paragraph. The exact rendering (indentation,' +
+                    ' leading etc.) is not defined and may be a function of other tags, style sheets,' +
+                    ' etc. The ALIGN attribute can be used to explicitly specify the horizontal align' +
+                    'ment. Paragraph elements have the same content model as headers, that is text an' +
+                    'd character level markup, such as character emphasis, inline images, form fields' +
+                    ' and math. '
+        };
+        blocksData.push(block);
+
+        block = {
+            metadataId: 3,
+            value: "\int_{a}^{b} f(x)dx = F(b) - F(a)"
+        };
+        blocksData.push(block);
+        blocks.insert(blocksData, function (err, docs) {
+            this.loadData();
+        }.bind(this));
+
+    }
+    findTagName(tagId)
+    {
+        let htmlTag = '';
+        MetaData
+            .metaData
+            .map(item => {
+                if (item.id === tagId) 
+                    htmlTag = item.htmlTag;
                 }
+            )
+        return htmlTag;
+    }
+    render() {
+        let latex = "\int_{a}^{b} f(x)dx = F(b) - F(a)";
+        return (
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-1">
+                        <button className="btn btn-default" onClick={this.insertData}>Add DefautlData</button>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-12 text-center">
+                        {this
+                            .state
+                            .data
+                            .map(item => {
+                                var Tag
+                                Tag = this.findTagName(item.metadataId);
+                                if (item.metadataId === 3) {
+                                    return <Tex texContent={item.value}/>
+                                } else {
+                                    return <Tag>{item.value}</Tag>
+                                }
+
+                            })
+}
+                    </div>
+
+                </div>
             </div>
         );
     }

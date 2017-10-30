@@ -15,7 +15,7 @@ class Login extends Component {
             username: 'admin',
             password: 'admin'
         }
-        this.setState({});
+        //this.setState({});
     }
     handleClick(event)
     {

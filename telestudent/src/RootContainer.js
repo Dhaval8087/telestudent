@@ -1,5 +1,5 @@
-import React from "react";
-export default class RootContainer extends React.Component {
+import React, { Component } from 'react';
+export default class RootContainer extends Component {
     render() {
         return (
             <div>
