@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Datastore from 'nedb';
-import MetaData from '../Data';
+import DynamicHtmlTag from "../Common/DynamicHtmlTag";
 import { Tex } from 'react-tex';
-import './Home.css';
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -67,15 +66,7 @@ class Home extends Component {
         }.bind(this));
 
     }
-    findTagName(tagId) {
-        let htmlTag = '';
-        MetaData.metaData.map(item => {
-            if (item.id === tagId)
-                htmlTag = item.htmlTag;
-        }
-        )
-        return htmlTag;
-    }
+    
     render() {
         return (
             <div className="container">
@@ -85,36 +76,8 @@ class Home extends Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-12 text-center">
-                        {this.state.data.map(item => {
-                            var Tag
-                            Tag = this.findTagName(item.metadataId);
-                            if (item.metadataId === 3) {
-                                return <Tex texContent={item.value} />
-                            } else {
-                                return <Tag>{item.value}</Tag>
-                            }
-
-                        })
-                        }
-                    </div>
+                    <DynamicHtmlTag data={this.state.data} />
                 </div>
-                <div className="row">
-                <FlipPage>
-  <article>
-    <h1>My awesome first article</h1>
-    <p>My awesome first content</p>
-  </article>
-  <article>
-    <h1>My wonderful second article</h1>
-    <p>My wonderful second content</p>
-  </article>
-  <article>
-    <h1>My excellent third article</h1>
-    <p>My excellent third content</p>
-  </article>
-</FlipPage>
-                    </div>
             </div>
         );
     }
