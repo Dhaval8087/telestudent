@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Datastore from 'nedb';
 import DynamicHtmlTag from "../Common/DynamicHtmlTag";
-import { Tex } from 'react-tex';
+
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data: []
         }
-        this.findTagName = this
-            .findTagName
-            .bind(this);
+      
         this.insertData = this
             .insertData
             .bind(this);

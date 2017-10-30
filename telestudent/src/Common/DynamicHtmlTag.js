@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import MetaData from '../Data';
+import { Tex } from 'react-tex';
 class DynamicHtmlTag extends Component {
-    constructor(props) {
-        super(props);
-        this.findTagName = this.findTagName.bind(this);
-    }
+   
 
     findTagName(tagId) {
         let htmlTag = '';
