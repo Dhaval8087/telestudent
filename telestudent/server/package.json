@@ -1,0 +1,23 @@
+{
+  "name": "aatsserver",
+  "version": "1.0.0",
+  "description": "application tracking system backend server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dhaval Patel",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^1.5.2",
+    "body-parser": "^1.14.2",
+    "compression": "^1.2.2",
+    "connect-busboy": "0.0.2",
+    "express": "^4.10.6",
+    "path": "^0.4.9",
+    "pg": "^4.1.1",
+    "q": "^1.1.2",
+    "url": "^0.11.0"
+  }
+}

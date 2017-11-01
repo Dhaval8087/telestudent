@@ -7,7 +7,7 @@ class DynamicHtmlTag extends Component {
     findTagName(tagId) {
         let htmlTag = '';
         MetaData.metaData.map(item => {
-            if (item.id === tagId)
+            if (item.id == tagId)
                 htmlTag = item.htmlTag;
         }
         )
@@ -20,9 +20,11 @@ class DynamicHtmlTag extends Component {
                     var Tag
                     Tag = this.findTagName(item.metadataId);
                     if (item.metadataId === 3) {
-                        return <Tex texContent={item.value} />
+                        debugger;
+                        item.value=item.value.replace('\b',"'\'");
+                        return <div><Tex texContent={item.value} /> <br/></div>
                     } else {
-                        return <Tag>{item.value}</Tag>
+                        return <div><Tag>{item.value}</Tag><br/></div>
                     }
 
                 })
