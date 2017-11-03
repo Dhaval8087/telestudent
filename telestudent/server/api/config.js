@@ -1,4 +1,16 @@
 module.exports = {
-    devURL: "postgres://postgres:sa123*@localhost:5432/telestudent",
-    prodURL: "postgres://Test User:285TestUser34@vtpostgresqleuinst1.cedvnbgkdr68.eu-west-1.rds.amazonaws.com:5432/vtdbpgeuvlt001"
+    devURL: {
+        user: 'postgres',
+        password: 'sa123*',
+        host: 'localhost',
+        port: '5432',
+        database: 'telestudent'
+    },
+    prodURL:{
+        user: 'Test User',
+        password: '285TestUser34',
+        host: 'vtpostgresqleuinst1.cedvnbgkdr68.eu-west-1.rds.amazonaws.com',
+        port: '5432',
+        database: 'vtdbpgeuvlt001'
+    }
 };

@@ -1,9 +1,9 @@
-import $ from "jquery"
+import {post} from "jquery"
 import config from '../../Application.config';
 import toastr from 'toastr';
 export function getBlcoks(callback) {
     try {
-        $.ajax({
+        /*$.ajax({
             url: config.APIURL + "getBlocks",
             type: "GET",
             success: function (data, textStatus, jqXHR) {
@@ -12,7 +12,18 @@ export function getBlcoks(callback) {
             error: function (xhr) {
                 toastr.error(xhr.responseText);
             }
-        });
+        });*/
+        post(config.APIURL,{
+            query:`{
+                blocks {
+                    uuid,
+                    metadataId,
+                    value
+                  }
+            }`
+        }).done(resp=>{
+            callback(resp.data.blocks);
+        })
     } catch (e) {
         toastr.error(e);
     }

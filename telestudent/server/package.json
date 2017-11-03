@@ -15,8 +15,11 @@
     "compression": "^1.2.2",
     "connect-busboy": "0.0.2",
     "express": "^4.10.6",
+    "express-graphql": "^0.6.11",
+    "fs": "0.0.1-security",
+    "graphql": "^0.11.7",
     "path": "^0.4.9",
-    "pg": "^4.1.1",
+    "pg": "^6.1.1",
     "q": "^1.1.2",
     "url": "^0.11.0"
   }
