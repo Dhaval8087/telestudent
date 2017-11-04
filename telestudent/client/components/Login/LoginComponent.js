@@ -8,12 +8,12 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'admin',
-      password: 'admin'
+      username: '',
+      password: ''
     }
-    this.handleLogin=this.handleLogin.bind(this);
-    //this.setState({});
+    this.handleLogin = this.handleLogin.bind(this);
   }
+
   handleLogin() {
     if (this.state.username === 'admin' && this.state.password === "admin") {
       this.context.router.push('/home');
@@ -30,10 +30,10 @@ export default class Login extends React.Component {
           <Grid>
             <div style={{ margin: 'auto' }}>
               <Cell col={12}>
-                <Textfield onChange={() => { }} label='Username' />
+                <Textfield onChange={(event) => { this.setState({ username: event.target.value }) }} label='Username' />
               </Cell>
               <Cell col={12}>
-                <Textfield onChange={() => { }} label='Password' type='password' />
+                <Textfield onChange={(event) => { this.setState({ password: event.target.value }) }} label='Password' type='password' />
               </Cell>
               <Cell col={12} style={{ textAlign: 'left' }}>
                 <Button primary raised accent onClick={this.handleLogin}>Login</Button>
