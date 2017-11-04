@@ -7,7 +7,14 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import './Common/toastr.css';
 
-
+import Relay from 'react-relay';
+console.log(Relay.RelayQL(`
+  {
+    blocks {
+      value
+    }
+  }
+`,[]))
 ReactDOM.render(
   <App />, document.getElementById('root'));
 registerServiceWorker();

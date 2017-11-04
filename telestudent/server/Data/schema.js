@@ -1,43 +1,96 @@
-var pg = require('pg');
-const {
+import pg from 'pg';
+
+import {
+    GraphQLBoolean,
+    GraphQLFloat,
     GraphQLID,
     GraphQLInt,
     GraphQLList,
     GraphQLNonNull,
     GraphQLObjectType,
     GraphQLSchema,
-    GraphQLString,
-  } = require('graphql');
+    GraphQLString
+} from 'graphql';
 
-var config = require('../api/config');
-console.log(config.prodURL);
-const pgpool = new pg.Pool(config.prodURL);
-let Schema = () => {
+import {
+    connectionArgs,
+    connectionDefinitions,
+    connectionFromArray,
+    fromGlobalId,
+    globalIdField,
+    mutationWithClientMutationId,
+    nodeDefinitions,
+    cursorForObjectInConnection
+} from 'graphql-relay';
 
-    let blockType = new GraphQLObjectType({
-        name: 'blocks',
-        fields: () => ({
-            uuid: { type: GraphQLString },
-            metadataId: { type: GraphQLInt },
-            value: { type: GraphQLString }
-        })
-    });
+import config from '../config/environment';
 
-    let schema = new GraphQLSchema({
-        query: new GraphQLObjectType({
-            name: 'Query',
-            fields: () => ({
-                blocks: {
-                    type: new GraphQLList(blockType),
-                    resolve: () => {
-                        return pgpool.query(`SELECT * FROM blocks`, []).then((result) => result.rows);
-                    }
-                }
-            })
-        })
-    });
+const { nodeInterface, nodeField } = nodeDefinitions(
+    (globalId) => {
+        const { type, id } = fromGlobalId(globalId);
+        if (type === 'Blocks') {
+            return getBlocks();
+        }
+        return null;
+    },
+    (obj) => {
+        if (obj instanceof Blocks) {
+            return blockType;
+        }
+        return null;
+    }
+);
+console.log(config.devURL);
+const pgpool = new pg.Pool(config.devURL);
 
-    return schema
-};
-module.exports = Schema;
+const blockType = new GraphQLObjectType({
+    name: 'Blocks',
+    description: 'A person who uses our app',
+    fields: () => ({
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        metadataId: { type: GraphQLInt },
+        value: { type: GraphQLString }
+    }),
+    interfaces: [nodeInterface]
+});
+
+
+const lstBlockType= new GraphQLObjectType({
+    name:'lstType',
+    fields:()=>({
+        blocks:{
+            type: new GraphQLList(blockType),
+            resolve:()=>getBlocks()
+        }
+    })
+});
+const queryType = new GraphQLObjectType({
+    name: 'Query',
+    interfaces: [nodeInterface],
+    fields: {
+        id: globalIdField('Viewer', () => 'id'),
+        viewer: {
+            type: lstBlockType,
+            resolve: () => {
+                return getBlocks();
+            }
+        }
+    }
+    
+});
+
+function getBlocks() {
+    return pgpool.query(`SELECT * FROM blocks`, []).then((result) => result.rows);
+}
+
+class Blocks {
+    constructor(id, metadataId, value) {
+        this.Id = id;
+        this.metadataId = metadataId;
+        this.value = value;
+    }
+}
+export default new GraphQLSchema({
+    query: queryType
+});
 
