@@ -15,6 +15,7 @@
   <% for (var css in htmlWebpackPlugin.files.css) { %>
   <link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
   <% } %>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" rel="stylesheet">
 </head>
 <body>
 <% if (htmlWebpackPlugin.options.unsupportedBrowser) { %>

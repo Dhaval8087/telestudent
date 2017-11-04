@@ -9,7 +9,6 @@ export default class Feature extends React.Component {
   };
 
   render() {
-    console.log(this.props.viewer.blocks);
     return (
       <div>
         <Page heading='Blocks'>
