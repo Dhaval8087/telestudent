@@ -17,7 +17,7 @@ class DynamicHtmlTag extends Component {
     render() {
         return (
             <Cell col={12}>
-                {this.props.data.map(item => {
+                {typeof this.props.data != "undefined" ? this.props.data.map(item => {
                     var Tag
                     Tag = this.findTagName(item.metadataId);
                     if (parseInt(item.metadataId) === 3) {
@@ -26,7 +26,7 @@ class DynamicHtmlTag extends Component {
                         return <Cell col={12} key={item.id}><Tag>{item.value}</Tag><br /></Cell>
                     }
 
-                })
+                }) : null
                 }
             </Cell>
         );

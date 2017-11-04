@@ -44,8 +44,6 @@ class Home extends Component {
 
     }
     insertData() {
-
-
         var blocks = new Datastore({ filename: 'Blocks.db', autoload: true });
         blocks.remove({}, {
             multi: true
