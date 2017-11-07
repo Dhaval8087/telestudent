@@ -3,6 +3,7 @@ import React from 'react';
 import { Grid, Cell, Textfield, Button, Checkbox } from 'react-mdl';
 import Page from '../Page/PageComponent';
 import toastr from 'toastr';
+import PropTypes from 'prop-types';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -46,5 +47,5 @@ export default class Login extends React.Component {
   }
 }
 Login.contextTypes = {
-  router: React.PropTypes.func.isRequired
+  router: PropTypes.object.isRequired
 };

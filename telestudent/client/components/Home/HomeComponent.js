@@ -4,11 +4,12 @@ import { Grid, Cell, Card, CardTitle, CardText, CardActions, Button } from 'reac
 import Page from '../Page/PageComponent';
 import DynamicHtmlTag from '../Common/DynamicHtmlTag';
 import { LoadData, InsertData } from './LocalDb';
+import PropTypes from 'prop-types';
 import Switch from 'react-toggle-switch'
 import "react-toggle-switch/dist/css/switch.min.css"
 export default class Home extends React.Component {
   static propTypes = {
-    viewer: React.PropTypes.object.isRequired
+    viewer: PropTypes.object.isRequired
   };
   constructor(props) {
     super(props)
@@ -77,3 +78,6 @@ export default class Home extends React.Component {
     );
   }
 }
+Home.contextTypes = {
+  router: PropTypes.object.isRequired
+};

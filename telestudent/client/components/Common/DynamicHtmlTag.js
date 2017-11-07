@@ -23,7 +23,7 @@ class DynamicHtmlTag extends Component {
                     if (parseInt(item.metadataId) === 3) {
                         return <Cell col={12} key={item.id}><Tex texContent={item.value} /> <br /></Cell>
                     } else {
-                        return <Cell col={12} key={item.id}><Tag>{item.value}</Tag><br /></Cell>
+                        return <Cell col={12} key={item.id}><Tag key={item.id}>{item.value}</Tag><br /></Cell>
                     }
 
                 }) : null
