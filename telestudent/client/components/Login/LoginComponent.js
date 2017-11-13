@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/href-no-hash */
 import React from 'react';
 import { Grid, Cell, Textfield, Button, Checkbox } from 'react-mdl';
+import { Link } from 'react-router';
 import Page from '../Page/PageComponent';
 import toastr from 'toastr';
 import PropTypes from 'prop-types';
@@ -38,7 +39,10 @@ export default class Login extends React.Component {
               </Cell>
               <Cell col={12} style={{ textAlign: 'left' }}>
                 <Button primary raised accent onClick={this.handleLogin}>Login</Button>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                 <Link to='/signup'> <Button style={{ textAlign: 'right' }} primary raised accent >SignUp</Button></Link>
               </Cell>
+
             </div>
           </Grid>
         </div>
