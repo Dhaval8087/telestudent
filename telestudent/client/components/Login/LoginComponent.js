@@ -5,6 +5,12 @@ import { Link } from 'react-router';
 import Page from '../Page/PageComponent';
 import toastr from 'toastr';
 import PropTypes from 'prop-types';
+import { getcognitoUser, 
+  getAutheticationDetails, 
+  getCredentials, 
+  streamToString,
+  makeRequest
+} from '../Common/getAWSSettings';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -17,13 +23,32 @@ export default class Login extends React.Component {
   }
 
   handleLogin() {
-    if (this.state.username === 'admin' && this.state.password === "admin") {
-      this.context.router.push('/home');
-    }
-    else {
-      toastr.error('Please enter the required details !!');
-    }
+    /* if (this.state.username === 'admin' && this.state.password === "admin") {
+       this.context.router.push('/home');
+     }
+     else {
+       toastr.error('Please enter the required details !!');
+     }*/
+    this.autheticateAWS();
 
+  }
+  autheticateAWS() {
+    var that=this;
+    var cognitoUser = getcognitoUser(this.state.username);
+    cognitoUser.authenticateUser(getAutheticationDetails(this.state.username, this.state.password), {
+      onSuccess: function (result) {
+          getCredentials(result.getIdToken().getJwtToken(),()=>{
+           toastr.success('success');
+           that.context.router.push('/home');
+           makeRequest();
+          })
+      },
+
+      onFailure: function (err) {
+        toastr.error(err);
+      },
+    });
+    
   }
   render() {
     return (

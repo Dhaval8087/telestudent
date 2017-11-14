@@ -16,22 +16,24 @@ const userPool = new CognitoUserPool({
     UserPoolId: appConfig.UserPoolId,
     ClientId: appConfig.ClientId,
 });
-
+var cognitoUser;
 export default class AutheticateByCode extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             authcode: '',
 
         }
-        this.handleAuthetication = this.handleAuthetication.bind(this);
-    }
-    handleAuthetication() {
+        console.log(this.props);
         var userData = {
             Username: this.props.params.email,
             Pool: userPool
         };
-        var cognitoUser = new CognitoUser(userData);
+        cognitoUser = new CognitoUser(userData);
+        this.handleAuthetication = this.handleAuthetication.bind(this);
+        this.resendOTP = this.resendOTP.bind(this);
+    }
+    handleAuthetication() {
         cognitoUser.confirmRegistration(this.state.authcode, true, function (err, result) {
             if (err) {
                 toastr.error(err);
@@ -43,6 +45,18 @@ export default class AutheticateByCode extends React.Component {
 
         }.bind(this));
     }
+    resendOTP() {
+        cognitoUser.resendConfirmationCode(function (err, result) {
+            if (err) {
+                toastr.error(err);
+                return;
+            }
+            else {
+                toastr.success("Re send successfully !!");
+            }
+
+        });
+    }
     render() {
         return (
             <Page heading='OTP Autetication'>
@@ -53,6 +67,8 @@ export default class AutheticateByCode extends React.Component {
                         </Cell>
                         <Cell col={12}>
                             <Button primary onClick={this.handleAuthetication}>Autheticate</Button>
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            <Button onClick={this.resendOTP}>Re-Send</Button>
                         </Cell>
                     </Grid>
                 </div>

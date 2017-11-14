@@ -58,7 +58,7 @@ export default class Home extends React.Component {
     console.log(this.state.data);
     return (
       <div>
-        <Page heading='Blocks'>
+        <Page heading='Blocks' isLogout="true">
           <Grid>
             <Cell col={2}>
               <Switch onClick={this.toggle}
