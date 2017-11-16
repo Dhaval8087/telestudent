@@ -3,7 +3,7 @@ var AWSCognito = require("amazon-cognito-identity-js");
 var apigClientFactory = require("aws-api-gateway-client").default;
 import appConfig from "../../config";
 
-
+var session;
 var poolData = {
     UserPoolId: appConfig.UserPoolId,
     ClientId: appConfig.ClientId
@@ -45,7 +45,7 @@ function getCredentials(userToken, callback) {
 
     AWS.config.credentials.get(function (err) {
         if (err) {
-           
+
             console.log(err.message ? err.message : err);
             return;
         }
@@ -53,42 +53,62 @@ function getCredentials(userToken, callback) {
         callback();
     });
 }
-function makeRequest() {
-    console.log("Making API request");
-  
-    var apigClient = apigClientFactory.newClient({
-      accessKey: AWS.config.credentials.accessKeyId,
-      secretKey: AWS.config.credentials.secretAccessKey,
-      sessionToken: AWS.config.credentials.sessionToken,
-      region: appConfig.region,
-      invokeUrl: appConfig.InvokeUrl
-    });
-  
+function getAllBucket() {
+    var s3 = new AWS.S3();
+
+    s3.listBuckets(function (err, data) {
+        console.log(err);
+    })
+}
+function getSession() {
+ return session;
+}
+function storeSession(apigClient) {
+    session = apigClient;
+}
+function makeAPIRequest(pathTemplate, callback) {
+    var apigClient;
+    if (AWS.config.credentials == null) {
+        apigClient = getSession();
+    }
+    else {
+        apigClient = apigClientFactory.newClient({
+            accessKey: AWS.config.credentials.accessKeyId,
+            secretKey: AWS.config.credentials.secretAccessKey,
+            sessionToken: AWS.config.credentials.sessionToken,
+            region: appConfig.region,
+            invokeUrl: appConfig.InvokeUrl
+        });
+        storeSession(apigClient);
+    }
+
+
     var params = JSON.parse('{}');
     var additionalParams = JSON.parse('{}');
     var body = JSON.parse('{}');
-  
+
     apigClient
-      .invokeApi(params, appConfig.PathTemplate, appConfig.Method, additionalParams, body)
-      .then(function(result) {
-        console.dir({
-          status: result.status,
-          statusText: result.statusText,
-          data: result.data
+        .invokeApi(params, pathTemplate, appConfig.Method, additionalParams, body)
+        .then(function (result) {
+            /*console.dir({
+                status: result.status,
+                statusText: result.statusText,
+                data: result.data
+            });*/
+            callback(result.data);
+        })
+        .catch(function (result) {
+            if (result.response) {
+                console.dir({
+                    status: result.response.status,
+                    statusText: result.response.statusText,
+                    data: result.response.data
+                });
+            } else {
+                console.log(result.message);
+            }
         });
-      })
-      .catch(function(result) {
-        if (result.response) {
-          console.dir({
-            status: result.response.status,
-            statusText: result.response.statusText,
-            data: result.response.data
-          });
-        } else {
-          console.log(result.message);
-        }
-      });
-  }
+}
 function streamToString(stream, cb) {
     const chunks = [];
     stream.on('data', (chunk) => {
@@ -104,5 +124,6 @@ export {
     getAutheticationDetails,
     streamToString,
     getCredentials,
-    makeRequest
+    makeAPIRequest,
+    getAllBucket
 }
