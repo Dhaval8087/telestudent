@@ -5,6 +5,7 @@ import { Grid, Cell, Card, CardText, CardActions, CardTitle, Button, Spinner } f
 import Constants from '../Constants';
 import Loader from '../Common/Loader';
 import './BooksContainer.css';
+import toastr from 'toastr';
 var that;
 class BooksContainer extends Component {
     constructor(props) {
@@ -24,7 +25,8 @@ class BooksContainer extends Component {
         })
     }
     downloadBook(event) {
-        that.setState({ isLoad: true });
+        toastr.info('Work in Progress !!!');
+       // that.setState({ isLoad: true });
     }
 
     render() {

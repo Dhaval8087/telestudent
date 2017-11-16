@@ -30,8 +30,8 @@ export default class Login extends React.Component {
     if (this.state.username != '' && this.state.password != '') {
 
       that.setState({ isLoad: true });
-      var cognitoUser = getcognitoUser('erdhavalpatel@yahoo.com');
-      cognitoUser.authenticateUser(getAutheticationDetails('erdhavalpatel@yahoo.com', 'Thomson123*'), {
+      var cognitoUser = getcognitoUser(this.state.username);
+      cognitoUser.authenticateUser(getAutheticationDetails(this.state.username, this.state.password), {
         onSuccess: function (result) {
           getCredentials(result.getIdToken().getJwtToken(), () => {
             toastr.success('success');
@@ -41,6 +41,7 @@ export default class Login extends React.Component {
         },
         onFailure: function (err) {
           toastr.error(err);
+          that.setState({ isLoad: false });
         },
       });
     }
