@@ -26,6 +26,7 @@ export default class Signup extends React.Component {
       repassword: ''
     }
     this.handleSignUp = this.handleSignUp.bind(this);
+    this.cancel = this.cancel.bind(this)
   }
   handleSignUp() {
     if (this.state.password != this.state.repassword) {
@@ -47,13 +48,16 @@ export default class Signup extends React.Component {
         }
         toastr.success('user is created ' + result.user.getUsername());
         this.context.router.push({    // use push
-            pathname: `/auth/${result.user.getUsername()}`,
+          pathname: `/auth/${result.user.getUsername()}`,
         });
         //this.context.router.push('/auth');
         /*console.log('user name is ' + result.user.getUsername());
         console.log('call result: ' + result);*/
       });
     }
+  }
+  cancel() {
+    this.context.router.push('/');
   }
   render() {
     return (
@@ -71,6 +75,8 @@ export default class Signup extends React.Component {
             </Cell>
             <Cell col={12}>
               <Button primary onClick={this.handleSignUp}>Sign up</Button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <Button primary onClick={this.cancel}>Cancel</Button>
             </Cell>
           </Grid>
         </div>
