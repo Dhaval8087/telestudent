@@ -2,7 +2,7 @@ var AWS = require("aws-sdk");
 var AWSCognito = require("amazon-cognito-identity-js");
 var apigClientFactory = require("aws-api-gateway-client").default;
 import appConfig from "../../config";
-
+import toastr from 'toastr';
 var session;
 var poolData = {
     UserPoolId: appConfig.UserPoolId,
@@ -61,7 +61,7 @@ function getAllBucket() {
     })
 }
 function getSession() {
- return session;
+    return session;
 }
 function storeSession(apigClient) {
     session = apigClient;
@@ -98,15 +98,19 @@ function makeAPIRequest(pathTemplate, callback) {
             callback(result.data);
         })
         .catch(function (result) {
+           
             if (result.response) {
-                console.dir({
-                    status: result.response.status,
-                    statusText: result.response.statusText,
-                    data: result.response.data
-                });
+                 /*console.dir({
+                     status: result.response.status,
+                     statusText: result.response.statusText,
+                     data: result.response.data
+                 });*/
+                toastr.error(JSON.stringify(result.response));
             } else {
-                console.log(result.message);
+                toastr.error(result.message);
+                //console.log(result.message);
             }
+            callback(null);
         });
 }
 function streamToString(stream, cb) {
