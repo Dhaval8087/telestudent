@@ -1,0 +1,10 @@
+.img{
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    
+}
+.img-opacity{
+    opacity: 0.4;
+    cursor:default;
+}

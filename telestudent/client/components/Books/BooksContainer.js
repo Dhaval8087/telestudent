@@ -36,6 +36,7 @@ class BooksContainer extends Component {
 
 
     }
+
     checkIfDownloaded(bookname) {
         var isdownloaded = false;
         localFiles.map((item) => {
@@ -72,9 +73,7 @@ class BooksContainer extends Component {
     }
     updateBook(event) {
         var bookname = event.target.id;
-        removeBook(bookname, (res) => {
-            that.downloadBookFromAWS(bookname);
-        });
+        that.downloadBookFromAWS(bookname);
 
     }
     downloadBookFromAWS(bookname) {
@@ -88,11 +87,12 @@ class BooksContainer extends Component {
                     }
                 });
                 that.setState({ isLoad: false, isDisabled: false, books: that.state.books });
+                toastr.success('Book Downloaded successfully');
             }
             else {
                 that.setState({ isLoad: false, isDisabled: false });
             }
-            toastr.success('Book Downloaded successfully');
+            
         });
     }
 
@@ -104,12 +104,11 @@ class BooksContainer extends Component {
                 {this.state.isLoad ? <Loader /> : null}
                 <Page heading='All Books' isLogout="true">
                     <Grid>
-
                         {
                             this.state.books.map(function (item) {
                                 const imageUrl = require(`../../assets/${item.id}.png`);
                                 var buttonText;
-                                if (item.isLocal != undefined && item.isLocal) {
+                                if ((item.isLocal != undefined && item.isLocal) || item.isDownloaded) {
                                     buttonText = "View Book";
                                 }
                                 else {

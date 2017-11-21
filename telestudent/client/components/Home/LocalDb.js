@@ -86,6 +86,7 @@ function getBook(bookname, callback) {
         callback(pages)
     });
 }
+
 function removeBook(bookname, callback) {
     var book = getbookDbInstance(bookname);
     book.remove({}, { multi: true }, function (err, num) {

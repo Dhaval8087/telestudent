@@ -1,7 +1,7 @@
 
 import { makeAPIRequest } from '../Common/getAWSSettings';
 import Constants from '../Constants';
-import { storeBook, storeAllbooksInfo } from '../Home/LocalDb';
+import { storeBook, storeAllbooksInfo, removeBook } from '../Home/LocalDb';
 
 function downloadAllBooksInformatino(callback) {
     // make API call for download all books information from the aws.
@@ -17,18 +17,19 @@ function downloadBookJson(pathTemplate, callback) {
     makeAPIRequest(pathTemplate, (result) => {
         if (result != null) {
             var totalPages = result.pages.length;
-            storeAllbooksInfo(result.bookname, () => {
-                result.pages.map(function (item) {
-                    //make the API request to download the specific pages.
-                    downloadPages(result.bookname, item.fileName, item.page, () => {
-                        if (item.page == totalPages) {
-                            callback(true);
-                        }
+            removeBook(result.bookname, () => {
+                storeAllbooksInfo(result.bookname, () => {
+                    result.pages.map(function (item) {
+                        //make the API request to download the specific pages.
+                        downloadPages(result.bookname, item.fileName, item.page, () => {
+                            if (item.page == totalPages) {
+                                callback(true);
+                            }
+                        });
+
                     });
-    
-                });
-            })
-           
+                })
+            });
         }
         else {
             callback(null);
