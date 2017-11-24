@@ -6,3 +6,34 @@
     border-top: 1px solid black;
     background: red;
     }
+    .pointer{
+        cursor: pointer;
+    }
+    .article
+    {
+        display: flex;
+    }
+    .article .item,
+    .article .price
+    {
+        flex: 1 0 auto;
+    }
+    
+    .article .dots
+    {
+        flex: 0 1 auto;
+    }
+    
+    .dots::before
+    {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;  
+        text-overflow: clip;
+        content:
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+    }
+   

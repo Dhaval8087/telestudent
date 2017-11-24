@@ -102,7 +102,7 @@ class BooksContainer extends Component {
         return (
             <div className="loading">
                 {this.state.isLoad ? <Loader /> : null}
-                <Page heading='All Books' isLogout="true">
+                <Page heading='All Books' isLogout="true" isHome="true">
                     <Grid>
                         {
                             this.state.books.map(function (item) {

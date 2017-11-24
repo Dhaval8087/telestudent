@@ -2,6 +2,11 @@ export default
 {
     "metaData" : [
         {
+            "id": 0,
+            "htmlTag": "span",
+            "name": "index"
+        },
+        {
             "id": 1,
             "htmlTag": "a",
             "name": "link"

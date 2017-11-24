@@ -8,3 +8,11 @@
     opacity: 0.4;
     cursor:default;
 }
+.indextext{
+    font-size: 25px;
+    text-align: center;
+    margin-left: 10%;
+    font-weight: bold;
+    font-family: -webkit-body;
+}
+

@@ -16,7 +16,7 @@ function downloadBookJson(pathTemplate, callback) {
     // make the API request for download the specific book inforation 
     makeAPIRequest(pathTemplate, (result) => {
         if (result != null) {
-            var totalPages = result.pages.length;
+            var totalPages = result.pages.length - 1;
             removeBook(result.bookname, () => {
                 storeAllbooksInfo(result.bookname, () => {
                     result.pages.map(function (item) {

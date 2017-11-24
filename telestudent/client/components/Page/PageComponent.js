@@ -19,6 +19,8 @@ export default class Feature extends React.Component {
           {this.props.heading}
         </h1>
         <div style={{ "text-align": "end", display: isLogout }}>
+          <Link to="/books">Home</Link>
+          &nbsp; &nbsp; &nbsp;
           <Link to="/">Logout</Link>
         </div>
         <hr />
