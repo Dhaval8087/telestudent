@@ -64,7 +64,7 @@ class ViewBook extends Component {
         return (
             <Page heading='Book Content' isLogout="true">
                 <Grid>
-                    {pageNo == 0 ? <span className="indextext">INDEX</span> : null}
+                  
                     <Cell col={12}>
                         <DynamicHtmlTag data={this.state.data} handleIndex={this.handleIndex.bind(this)} />
                     </Cell>

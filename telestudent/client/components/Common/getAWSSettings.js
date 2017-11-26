@@ -68,21 +68,13 @@ function storeSession(apigClient) {
 }
 function makeAPIRequest(pathTemplate, callback) {
     var apigClient;
-    if (AWS.config.credentials == null) {
-        apigClient = getSession();
-    }
-    else {
-        apigClient = apigClientFactory.newClient({
-            accessKey: AWS.config.credentials.accessKeyId,
-            secretKey: AWS.config.credentials.secretAccessKey,
-            sessionToken: AWS.config.credentials.sessionToken,
-            region: appConfig.region,
-            invokeUrl: appConfig.InvokeUrl
-        });
-        storeSession(apigClient);
-    }
-
-
+    apigClient = apigClientFactory.newClient({
+        accessKey: AWS.config.credentials.accessKeyId,
+        secretKey: AWS.config.credentials.secretAccessKey,
+        sessionToken: AWS.config.credentials.sessionToken,
+        region: appConfig.region,
+        invokeUrl: appConfig.InvokeUrl
+    });
     var params = JSON.parse('{}');
     var additionalParams = JSON.parse('{}');
     var body = JSON.parse('{}');
@@ -98,13 +90,13 @@ function makeAPIRequest(pathTemplate, callback) {
             callback(result.data);
         })
         .catch(function (result) {
-           
+
             if (result.response) {
-                 /*console.dir({
-                     status: result.response.status,
-                     statusText: result.response.statusText,
-                     data: result.response.data
-                 });*/
+                /*console.dir({
+                    status: result.response.status,
+                    statusText: result.response.statusText,
+                    data: result.response.data
+                });*/
                 toastr.error(JSON.stringify(result.response));
             } else {
                 toastr.error(result.message);
