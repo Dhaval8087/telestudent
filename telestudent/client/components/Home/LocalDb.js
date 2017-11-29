@@ -15,41 +15,7 @@ function LoadData(callback) {
     }.bind(this));
 
 }
-function InsertData(callback) {
-    var blocks = new Datastore({ filename: 'Blocks.db', autoload: true });
-    blocks.remove({}, {
-        multi: true
-    }, function (err, num) {
-    }.bind(this));
-    var blocksData = [];
-    var block;
-    block = {
-        metadataId: 1,
-        value: 'https://www.npmjs.com/package/sequential-guid'
-    };
-    blocksData.push(block);
 
-    block = {
-        metadataId: 2,
-        value: 'The <P> element is used to define a paragraph. The exact rendering (indentation,' +
-            ' leading etc.) is not defined and may be a function of other tags, style sheets,' +
-            ' etc. The ALIGN attribute can be used to explicitly specify the horizontal align' +
-            'ment. Paragraph elements have the same content model as headers, that is text an' +
-            'd character level markup, such as character emphasis, inline images, form fields' +
-            ' and math. '
-    };
-    blocksData.push(block);
-
-    block = {
-        metadataId: 3,
-        value: "\int_0^\infty x^2 dx"
-        // value: "\int_{a}^{b} f(x)dx = F(b) - F(a)"
-    };
-    blocksData.push(block);
-    blocks.insert(blocksData, function (err, docs) {
-        callback(blocksData)
-    }.bind(this));
-}
 function storeBook(bookName, page, pageNo) {
     var book = new Datastore({ filename: bookName + ".db", autoload: true });
     var bookDetail = {
@@ -59,8 +25,6 @@ function storeBook(bookName, page, pageNo) {
     book.insert(bookDetail, function (err, docs) {
 
     }.bind(this));
-
-    console.log(book)
 }
 function storeAllbooksInfo(bookid, callback) {
 
@@ -95,7 +59,6 @@ function removeBook(bookname, callback) {
 }
 export {
     LoadData,
-    InsertData,
     storeBook,
     getBook,
     storeAllbooksInfo,

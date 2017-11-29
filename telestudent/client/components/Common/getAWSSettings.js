@@ -82,25 +82,14 @@ function makeAPIRequest(pathTemplate, callback) {
     apigClient
         .invokeApi(params, pathTemplate, appConfig.Method, additionalParams, body)
         .then(function (result) {
-            /*console.dir({
-                status: result.status,
-                statusText: result.statusText,
-                data: result.data
-            });*/
             callback(result.data);
         })
         .catch(function (result) {
 
             if (result.response) {
-                /*console.dir({
-                    status: result.response.status,
-                    statusText: result.response.statusText,
-                    data: result.response.data
-                });*/
                 toastr.error(JSON.stringify(result.response));
             } else {
                 toastr.error(result.message);
-                //console.log(result.message);
             }
             callback(null);
         });

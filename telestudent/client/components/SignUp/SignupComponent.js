@@ -50,9 +50,6 @@ export default class Signup extends React.Component {
         this.context.router.push({    // use push
           pathname: `/auth/${result.user.getUsername()}`,
         });
-        //this.context.router.push('/auth');
-        /*console.log('user name is ' + result.user.getUsername());
-        console.log('call result: ' + result);*/
       });
     }
   }

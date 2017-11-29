@@ -3,7 +3,7 @@ import MetaData from './Data';
 import { Grid, Cell, Card, CardTitle, CardText, CardActions, Button } from 'react-mdl';
 import { Tex } from 'react-tex';
 import './DynamicHtmlTag.css';
-
+import IndexPage from './IndexPage';
 class DynamicHtmlTag extends Component {
 
     findTagName(tagId) {
@@ -25,7 +25,6 @@ class DynamicHtmlTag extends Component {
         }
         return (
             <Cell col={12}>
-
                 <Cell col={12} style={{ "max-height": "500px", "overflow": "auto" }}>
                     {typeof this.props.data != "undefined" && typeof this.props.data.cheapter != "undefined" ? <span className="indextext">{this.props.data.cheapter}</span> : null}
                     {typeof this.props.data != "undefined" ? booksData.map(it => {
@@ -37,17 +36,7 @@ class DynamicHtmlTag extends Component {
                         }
                         else if (parseInt(item.metadataId) === 0) {
                             return (
-                                <Cell col={12}>
-                                    <Cell col={12} key={item.id}>
-                                        <Cell col={6}>
-                                            <span>{item.sequance}.</span>
-                                            <a key={item.id} className="pointer" id={item.page} onClick={this.props.handleIndex}>
-                                                {item.blocks}
-                                            </a>
-                                        </Cell>
-                                        <br />
-                                    </Cell>
-                                </Cell>
+                                <IndexPage item={item} handleIndex={this.props.handleIndex} />
                             )
                         }
                         else {

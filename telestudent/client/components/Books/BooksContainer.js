@@ -20,7 +20,6 @@ class BooksContainer extends Component {
             isDisabled: false,
         }
         that = this;
-        // this.downloadBook = this.downloadBook.bind(this)
     }
     componentDidMount() {
         that.setState({ isLoad: true });
