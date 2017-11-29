@@ -23,6 +23,11 @@ export default
             "id": 4,
             "htmlTag": "span",
             "name": "expresion"
+        },
+        {
+            "id": 5,
+            "htmlTag": "span",
+            "name": "jsfile"
         }
     ]
 }

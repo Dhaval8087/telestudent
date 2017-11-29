@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import MetaData from './Data';
 import { Grid, Cell, Card, CardTitle, CardText, CardActions, Button } from 'react-mdl';
-import { Tex } from 'react-tex';
-import './DynamicHtmlTag.css';
+import Math from './Math';
+import HtmlElement from './HtmlElement';
 import IndexPage from './IndexPage';
+import LoadJSFile from './LoadJSFile';
+import './DynamicHtmlTag.css';
 class DynamicHtmlTag extends Component {
 
     findTagName(tagId) {
@@ -16,7 +18,7 @@ class DynamicHtmlTag extends Component {
         return htmlTag;
     }
     render() {
-        var booksData = [];
+        let booksData = [];
         if (typeof this.props.data != "undefined" && typeof this.props.data.content != "undefined") {
             this.props.data.content.sort(function (a, b) {
                 return parseFloat(a.sequance) - parseFloat(b.sequance);
@@ -28,19 +30,19 @@ class DynamicHtmlTag extends Component {
                 <Cell col={12} style={{ "max-height": "500px", "overflow": "auto" }}>
                     {typeof this.props.data != "undefined" && typeof this.props.data.cheapter != "undefined" ? <span className="indextext">{this.props.data.cheapter}</span> : null}
                     {typeof this.props.data != "undefined" ? booksData.map(it => {
-                        var item = this.props.data.content[it];
-                        var Tag
-                        Tag = this.findTagName(item.metadataId);
-                        if (parseInt(item.metadataId) === 3) {
-                            return <Cell col={12} key={item.id}><Tex texContent={item.blocks} /> <br /></Cell>
+                        let item = this.props.data.content[it];
+                        if (parseInt(item.metadataId) === 0) {
+                            return <IndexPage item={item} handleIndex={this.props.handleIndex} />
                         }
-                        else if (parseInt(item.metadataId) === 0) {
-                            return (
-                                <IndexPage item={item} handleIndex={this.props.handleIndex} />
-                            )
+                        else if (parseInt(item.metadataId) === 3) {
+                            return <Math item={item} />
+                        }
+                        else if (parseInt(item.metadataId) === 5) {
+                          return <LoadJSFile item={item} />
                         }
                         else {
-                            return <Cell col={12} key={item.id}><Tag key={item.id}>{item.blocks}</Tag><br /></Cell>
+                            let Tag = this.findTagName(item.metadataId);
+                            return <HtmlElement tag={Tag} item={item} />
                         }
 
                     }) : null

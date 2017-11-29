@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Cell, Card, CardTitle, CardText, CardActions, Button } from 'react-mdl';
+import { Cell } from 'react-mdl';
 import './DynamicHtmlTag.css';
 class IndexPage extends Component {
     render() {
