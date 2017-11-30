@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getBook, getAllbookInfo } from '../Home/LocalDb';
+import { getBook, getAllbookInfo, getbookTotalPages } from '../Home/LocalDb';
 import Page from '../Page/PageComponent';
 import DynamicHtmlTag from '../Common/DynamicHtmlTag';
 import MenuDrawer from '../Views/MenuDrawer';
@@ -16,7 +16,8 @@ class ViewBook extends Component {
             index: undefined,
             isNext: true,
             isPrev: false,
-            pageNo: undefined
+            pageNo: undefined,
+            totalPages: 0
         }
         this.handlePageNavigation = this.handlePageNavigation.bind(this);
         this.nextPage = this.nextPage.bind(this);
@@ -25,33 +26,37 @@ class ViewBook extends Component {
         this.handleIndexMUI = this.handleIndexMUI.bind(this);
     }
     componentDidMount() {
-        getBook(this.state.book, (result) => {
-            this.state.bookPages = result;
-            this.state.pageNo = 0;
+        this.state.pageNo = 0;
+        getbookTotalPages(this.state.book, (result) => {
+            this.state.totalPages = result;
             this.handlePageNavigation(0);
         });
+
     }
     handlePageNavigation(pageNo) {
-        let pages = this.state.bookPages;
-        pages.sort(function (a, b) {
-            return parseFloat(a.pageNo) - parseFloat(b.pageNo);
-        });
-        let dd = pages.find(p => p.pageNo === pageNo.toString());
-        let index = pages.find(p => p.pageNo === "0");
+        getBook(this.state.book, pageNo, (result) => {
 
-        if (pageNo === (pages.length - 1)) {
-            this.state.isNext = false;
-        }
-        else {
-            this.state.isNext = true;
-        }
-        if (pageNo > 0) {
-            this.state.isPrev = true;
-        }
-        else {
-            this.state.isPrev = false;
-        }
-        this.setState({ index: index.content, data: dd.content, isNext: this.state.isNext, isPrev: this.state.isPrev });
+            if (pageNo === 0) {
+                this.state.index = result.content;
+            }
+            if (pageNo === (this.state.totalPages - 1)) {
+                this.state.isNext = false;
+            }
+            else {
+                this.state.isNext = true;
+            }
+            if (pageNo > 0) {
+                this.state.isPrev = true;
+            }
+            else {
+                this.state.isPrev = false;
+            }
+
+            this.setState({ index: this.state.index, data: result.content, isNext: this.state.isNext, isPrev: this.state.isPrev });
+        });
+
+
+
     }
     nextPage() {
         let pageNo = this.state.pageNo;

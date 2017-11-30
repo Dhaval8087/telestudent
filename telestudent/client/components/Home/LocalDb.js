@@ -1,5 +1,6 @@
 
 import Datastore from 'nedb';
+import { debug } from 'util';
 
 function getbookDbInstance(bookname) {
     return new Datastore({ filename: bookname + ".db", autoload: true });
@@ -44,11 +45,25 @@ function getAllbookInfo(callback) {
         callback(books)
     });
 }
-function getBook(bookname, callback) {
+function getBook(bookname, page, callback) {
     var book = getbookDbInstance(bookname);
-    book.find({}).exec(function (err, pages) {
-        callback(pages)
-    });
+    if (typeof page != "undefined") {
+        book.find({ pageNo: page.toString() }, function (err, pages) {
+            callback(pages[0])
+        });
+    }
+    else {
+        book.find({}, function (err, pages) {
+            callback(pages)
+        });
+    }
+
+}
+function getbookTotalPages(bookname, callback) {
+    var book = getbookDbInstance(bookname);
+    book.find({}, function (err, pages) {
+        callback(pages.length);
+    })
 }
 
 function removeBook(bookname, callback) {
@@ -63,5 +78,6 @@ export {
     getBook,
     storeAllbooksInfo,
     getAllbookInfo,
-    removeBook
+    removeBook,
+    getbookTotalPages
 };

@@ -14,34 +14,33 @@ import {
   makeRequest,
   getAllBucket
 } from '../Common/getAWSSettings';
-var that;
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'erdhavalpatel@yahoo.com',
-      password: 'Thomson123*',
+      username: '',
+      password: '',
       isLoad: false
     }
-    that = this;
     this.autheticateAWS = this.autheticateAWS.bind(this);
   }
   autheticateAWS() {
     if (this.state.username != '' && this.state.password != '') {
 
-      that.setState({ isLoad: true });
+      this.setState({ isLoad: true });
+    
       var cognitoUser = getcognitoUser(this.state.username);
       cognitoUser.authenticateUser(getAutheticationDetails(this.state.username, this.state.password), {
-        onSuccess: function (result) {
+        onSuccess: (result) => {
           getCredentials(result.getIdToken().getJwtToken(), () => {
             toastr.success('success');
-            that.setState({ isLoad: false });
-            that.context.router.push('/books');
+            this.setState({ isLoad: false });
+            this.context.router.push('/books');
           })
         },
-        onFailure: function (err) {
+        onFailure: (err) => {
           toastr.error(err);
-          that.setState({ isLoad: false });
+          this.setState({ isLoad: false });
         },
       });
     }
