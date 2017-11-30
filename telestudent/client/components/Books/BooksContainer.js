@@ -9,7 +9,6 @@ import './BooksContainer.css';
 import toastr from 'toastr';
 import { downloadBookJson, downloadAllBooksInformatino } from './DownloadBook';
 import { getBook, getAllbookInfo, removeBook } from '../Home/LocalDb';
-var that;
 var localFiles = []
 class BooksContainer extends Component {
     constructor(props) {
@@ -19,17 +18,20 @@ class BooksContainer extends Component {
             isLoad: false,
             isDisabled: false,
         }
-        that = this;
+        this.checkLocalBook = this.checkLocalBook.bind(this);
+        this.downloadBook = this.downloadBook.bind(this);
+        this.updateBook = this.updateBook.bind(this);
+        this.downloadBookFromAWS = this.downloadBookFromAWS.bind(this);
     }
     componentDidMount() {
-        that.setState({ isLoad: true });
+        this.setState({ isLoad: true });
         getAllbookInfo((local) => {
             localFiles = local;
             console.log(localFiles);
             downloadAllBooksInformatino((result) => {
-                that.state.books = result;
-                that.checkLocalBook();
-                that.setState({ books: that.state.books, isLoad: false });
+                this.state.books = result;
+                this.checkLocalBook();
+                this.setState({ books: this.state.books, isLoad: false });
             })
         })
 
@@ -47,8 +49,8 @@ class BooksContainer extends Component {
         return isdownloaded;
     }
     checkLocalBook() {
-        that.state.books.map((item) => {
-            if (that.checkIfDownloaded(item.id)) {
+        this.state.books.map((item) => {
+            if (this.checkIfDownloaded(item.id)) {
                 item.isLocal = true;
             }
             else {
@@ -60,10 +62,10 @@ class BooksContainer extends Component {
         //toastr.info('Work in Progress !!!');
         var bookname = event.target.id;
         if (event.target.name == "Download Book") {
-            that.downloadBookFromAWS(bookname);
+            this.downloadBookFromAWS(bookname);
         }
         else {
-            that.context.router.push({    // use push
+            this.context.router.push({    // use push
                 pathname: `/view/${bookname}`,
             });
 
@@ -72,26 +74,26 @@ class BooksContainer extends Component {
     }
     updateBook(event) {
         var bookname = event.target.id;
-        that.downloadBookFromAWS(bookname);
+        this.downloadBookFromAWS(bookname);
 
     }
     downloadBookFromAWS(bookname) {
-        that.setState({ isLoad: true, isDisabled: true });
+        this.setState({ isLoad: true, isDisabled: true });
         downloadBookJson(Constants.parentUrl + bookname + ".json", (result) => {
             if (result != null) {
-                that.state.books.forEach((element, index) => {
+                this.state.books.forEach((element, index) => {
                     if (element.id === bookname) {
                         element.isDownloaded = true;
                         return;
                     }
                 });
-                that.setState({ isLoad: false, isDisabled: false, books: that.state.books });
+                this.setState({ isLoad: false, isDisabled: false, books: this.state.books });
                 toastr.success('Book Downloaded successfully');
             }
             else {
-                that.setState({ isLoad: false, isDisabled: false });
+                this.setState({ isLoad: false, isDisabled: false });
             }
-            
+
         });
     }
 
@@ -104,7 +106,7 @@ class BooksContainer extends Component {
                 <Page heading='All Books' isLogout="true" isHome="true">
                     <Grid>
                         {
-                            this.state.books.map(function (item) {
+                            this.state.books.map((item) => {
                                 const imageUrl = require(`../../assets/${item.id}.png`);
                                 var buttonText;
                                 if ((item.isLocal != undefined && item.isLocal) || item.isDownloaded) {
@@ -123,23 +125,23 @@ class BooksContainer extends Component {
                                             <CardActions border>
                                                 {
                                                     this.state.isDisabled ?
-                                                        <Button colored disabled onClick={that.downloadBook} id={item.id} name={buttonText}>{buttonText}</Button>
+                                                        <Button colored disabled onClick={this.downloadBook} id={item.id} name={buttonText}>{buttonText}</Button>
 
                                                         :
-                                                        <Button colored onClick={that.downloadBook} id={item.id} name={buttonText}>{buttonText}</Button>
+                                                        <Button colored onClick={this.downloadBook} id={item.id} name={buttonText}>{buttonText}</Button>
                                                 }
                                                 {
                                                     this.state.isDisabled ?
-                                                        <Button colored disabled onClick={that.updateBook} id={item.id} name={buttonText}>Update Book</Button>
+                                                        <Button colored disabled onClick={this.updateBook} id={item.id} name={buttonText}>Update Book</Button>
 
                                                         :
-                                                        <Button colored onClick={that.updateBook} id={item.id} name={buttonText}>Update Book</Button>
+                                                        <Button colored onClick={this.updateBook} id={item.id} name={buttonText}>Update Book</Button>
                                                 }
                                             </CardActions>
                                         </Card>
                                     </Cell>
                                 )
-                            }.bind(this))
+                            })
                         }
 
                     </Grid>

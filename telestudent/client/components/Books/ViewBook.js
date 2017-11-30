@@ -3,6 +3,7 @@ import { getBook, getAllbookInfo, getbookTotalPages } from '../Home/LocalDb';
 import Page from '../Page/PageComponent';
 import DynamicHtmlTag from '../Common/DynamicHtmlTag';
 import MenuDrawer from '../Views/MenuDrawer';
+import PropTypes from 'prop-types';
 import { Grid, Cell, Card, CardText, CardActions, CardTitle, Button, Spinner, FABButton, Icon } from 'react-mdl';
 import './ViewBook.css';
 //var pageNo = 0;
@@ -35,24 +36,30 @@ class ViewBook extends Component {
     }
     handlePageNavigation(pageNo) {
         getBook(this.state.book, pageNo, (result) => {
-
-            if (pageNo === 0) {
-                this.state.index = result.content;
-            }
-            if (pageNo === (this.state.totalPages - 1)) {
-                this.state.isNext = false;
+            if (typeof result == "undefined") {
+                this.context.router.push("/books");
             }
             else {
-                this.state.isNext = true;
-            }
-            if (pageNo > 0) {
-                this.state.isPrev = true;
-            }
-            else {
-                this.state.isPrev = false;
+                if (pageNo === 0) {
+                    this.state.index = result.content;
+                }
+                if (pageNo === (this.state.totalPages - 1)) {
+                    this.state.isNext = false;
+                }
+                else {
+                    this.state.isNext = true;
+                }
+                if (pageNo > 0) {
+                    this.state.isPrev = true;
+                }
+                else {
+                    this.state.isPrev = false;
+                }
+
+                this.setState({ index: this.state.index, data: result.content, isNext: this.state.isNext, isPrev: this.state.isPrev });
             }
 
-            this.setState({ index: this.state.index, data: result.content, isNext: this.state.isNext, isPrev: this.state.isPrev });
+
         });
 
 
@@ -118,5 +125,7 @@ class ViewBook extends Component {
         )
     }
 }
-
+ViewBook.contextTypes = {
+    router: PropTypes.object.isRequired
+};
 export default ViewBook
