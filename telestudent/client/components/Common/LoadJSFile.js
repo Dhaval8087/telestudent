@@ -11,11 +11,10 @@ class LoadJsFile extends Component {
     componentDidMount() {
         let item = this.props.item;
         var url = encodeURIComponent("Capital_in_Twenty_First/" + item.blocks);
-        var that = this;
         this.setState({ isload: true });
         makeAPIRequest(Constants.parentUrl + url, (result) => {
             if (result != null) {
-                that.setState({ isload: false });
+                this.setState({ isload: false });
                 eval(result);
 
             }

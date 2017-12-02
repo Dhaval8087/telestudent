@@ -23,7 +23,10 @@ function downloadBookJson(pathTemplate, callback) {
                         //make the API request to download the specific pages.
                         downloadPages(result.bookname, item.fileName, item.page, () => {
                             if (item.page == totalPages) {
-                                callback(true);
+                                //sometimes if last page take more time so will hold 3 sec  so process will complete it.
+                                setTimeout(function () {
+                                    callback(true);
+                                }, 3000)
                             }
                         });
 

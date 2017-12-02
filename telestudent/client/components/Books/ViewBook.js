@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import { getBook, getAllbookInfo, getbookTotalPages } from '../Home/LocalDb';
+import { downloadBookJson } from './DownloadBook';
 import Page from '../Page/PageComponent';
 import DynamicHtmlTag from '../Common/DynamicHtmlTag';
 import MenuDrawer from '../Views/MenuDrawer';
 import PropTypes from 'prop-types';
+import Loader from '../Common/Loader';
+import Constants from '../Constants';
 import { Grid, Cell, Card, CardText, CardActions, CardTitle, Button, Spinner, FABButton, Icon } from 'react-mdl';
 import './ViewBook.css';
 //var pageNo = 0;
@@ -18,7 +21,8 @@ class ViewBook extends Component {
             isNext: true,
             isPrev: false,
             pageNo: undefined,
-            totalPages: 0
+            totalPages: 0,
+            isLoad: false
         }
         this.handlePageNavigation = this.handlePageNavigation.bind(this);
         this.nextPage = this.nextPage.bind(this);
@@ -36,8 +40,13 @@ class ViewBook extends Component {
     }
     handlePageNavigation(pageNo) {
         getBook(this.state.book, pageNo, (result) => {
+
             if (typeof result == "undefined") {
-                this.context.router.push("/books");
+                this.setState({ isLoad: true });
+                downloadBookJson(Constants.parentUrl + this.state.book + ".json", (result) => {
+                    this.setState({ isLoad: false });
+                    this.context.router.push("/books");
+                })
             }
             else {
                 if (pageNo === 0) {
@@ -98,6 +107,7 @@ class ViewBook extends Component {
                     index={this.state.index}
                     handleIndex={this.handleIndexMUI}
                 />
+                {this.state.isLoad ? <Loader /> : null}
                 <Page heading='Book Content' isLogout="true">
                     <Grid>
                         <Cell col={12}>
