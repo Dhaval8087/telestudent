@@ -25,6 +25,7 @@ function createWindow() {
     startUrl="http://localhost:3000";   
 
     mainWindow.loadURL(startUrl);
+    mainWindow.maximize();
     // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 
