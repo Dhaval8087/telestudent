@@ -50,7 +50,7 @@ export default class Feature extends React.Component {
             {this.props.children}
           </Content>
           <Footer size="mini">
-            <p>&copy; 2017 ,Powered by Venture Things LLC.</p>
+            <p>&copy; 2017 ,Venture Things LLC.</p>
           </Footer>
         </Layout>
       </div>
