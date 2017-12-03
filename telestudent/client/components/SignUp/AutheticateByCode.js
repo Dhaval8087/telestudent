@@ -59,20 +59,22 @@ export default class AutheticateByCode extends React.Component {
     }
     render() {
         return (
-            <Page heading='OTP Autetication'>
-                <div style={{ width: '70%', margin: 'auto' }}>
-                    <Grid>
-                        <Cell col={12}>
-                            <Textfield onChange={(event) => { this.setState({ authcode: event.target.value }) }} label='Enter OTP' />
-                        </Cell>
-                        <Cell col={12}>
-                            <Button primary onClick={this.handleAuthetication}>Autheticate</Button>
-                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <div className="loading">
+                <Page heading='OTP Autetication'>
+                    <div style={{ width: '70%', margin: 'auto' }}>
+                        <Grid>
+                            <Cell col={12}>
+                                <Textfield onChange={(event) => { this.setState({ authcode: event.target.value }) }} label='Enter OTP' />
+                            </Cell>
+                            <Cell col={12}>
+                                <Button primary onClick={this.handleAuthetication}>Autheticate</Button>
+                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                             <Button onClick={this.resendOTP}>Re-Send</Button>
-                        </Cell>
-                    </Grid>
-                </div>
-            </Page>
+                            </Cell>
+                        </Grid>
+                    </div>
+                </Page>
+            </div>
         );
     }
 }

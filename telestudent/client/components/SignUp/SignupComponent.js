@@ -58,26 +58,28 @@ export default class Signup extends React.Component {
   }
   render() {
     return (
-      <Page heading='Signup'>
-        <div style={{ width: '70%', margin: 'auto' }}>
-          <Grid>
-            <Cell col={12}>
-              <Textfield onChange={(event) => { this.setState({ username: event.target.value }) }} label='Email' />
-            </Cell>
-            <Cell col={12}>
-              <Textfield onChange={(event) => { this.setState({ password: event.target.value }) }} label='Password' type='password' />
-            </Cell>
-            <Cell col={12}>
-              <Textfield onChange={(event) => { this.setState({ repassword: event.target.value }) }} label='Re-Password' type='password' />
-            </Cell>
-            <Cell col={12}>
-              <Button primary onClick={this.handleSignUp}>Sign up</Button>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div className="loading">
+        <Page heading='Signup'>
+          <div style={{ width: '70%', margin: 'auto' }}>
+            <Grid>
+              <Cell col={12}>
+                <Textfield onChange={(event) => { this.setState({ username: event.target.value }) }} label='Email' />
+              </Cell>
+              <Cell col={12}>
+                <Textfield onChange={(event) => { this.setState({ password: event.target.value }) }} label='Password' type='password' />
+              </Cell>
+              <Cell col={12}>
+                <Textfield onChange={(event) => { this.setState({ repassword: event.target.value }) }} label='Re-Password' type='password' />
+              </Cell>
+              <Cell col={12}>
+                <Button primary onClick={this.handleSignUp}>Sign up</Button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <Button primary onClick={this.cancel}>Cancel</Button>
-            </Cell>
-          </Grid>
-        </div>
-      </Page>
+              </Cell>
+            </Grid>
+          </div>
+        </Page>
+      </div>
     );
   }
 }

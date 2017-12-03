@@ -22,7 +22,8 @@ class ViewBook extends Component {
             isPrev: false,
             pageNo: undefined,
             totalPages: 0,
-            isLoad: false
+            isLoad: false,
+            left: false
         }
         this.handlePageNavigation = this.handlePageNavigation.bind(this);
         this.nextPage = this.nextPage.bind(this);
@@ -94,21 +95,24 @@ class ViewBook extends Component {
     handleIndexMUI(event) {
         let context = this;
         let pageNo = parseInt(event.target.id);
-        this.setState({ pageNo: pageNo });
+        this.setState({ pageNo: pageNo, left: false });
         this.handlePageNavigation(pageNo);
     }
-
+    toggleDrawer = (open) => () => {
+        debugger;
+        this.setState({
+            left: open,
+        });
+    };
     render() {
         var nextIcon = require('../../assets/next.png');
         var previosuIcon = require('../../assets/previous.png');
         return (
-            <div>
-                <MenuDrawer
-                    index={this.state.index}
-                    handleIndex={this.handleIndexMUI}
-                />
+            <div className="loading">
                 {this.state.isLoad ? <Loader /> : null}
-                <Page heading='Book Content' isLogout="true">
+                <Page heading='Book Content' isLogout="true" index={this.state.index}
+                    handleIndex={this.handleIndexMUI} left={this.state.left} toggleDrawer={this.toggleDrawer}
+                >
                     <Grid>
                         <Cell col={12}>
                             <DynamicHtmlTag data={this.state.data} handleIndex={this.handleIndex} />
