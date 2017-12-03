@@ -18,6 +18,7 @@ export default class Feature extends React.Component {
         <h1 className={styles.heading}>
           {this.props.heading}
         </h1>
+
         <div style={{ "text-align": "end", display: isLogout }}>
           <Link to="/books">Home</Link>
           &nbsp; &nbsp; &nbsp;
@@ -25,6 +26,10 @@ export default class Feature extends React.Component {
         </div>
         <hr />
         {this.props.children}
+        
+        <div className={styles.footer}>
+          <p>&copy; 2017 ,Powered by Venture Things LLC.</p>
+        </div>
       </div>
     );
   }
