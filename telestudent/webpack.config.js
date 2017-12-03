@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'production') {
       }
     }),
     new HtmlWebpackPlugin({
-      title: 'Telestudent, Powered by Relay Fullstack',
+      title: 'Telestudent, Powered by Venture Things LLC',
       template: './client/index.html',
       mobile: true,
       inject: false
@@ -52,7 +52,7 @@ if (process.env.NODE_ENV === 'production') {
       __DEV__: true
     }),
     new HtmlWebpackPlugin({
-      title: 'Telestudent, Powered by Relay Fullstack',
+      title: 'Telestudent, Powered by Venture Things LLC',
       template: './client/index.html',
       mobile: true,
       inject: false
@@ -88,11 +88,15 @@ module.exports = {
       loaders: [
         'style',
         'css?modules&importLoaders=1' +
-          '&localIdentName=[name]__[local]___[hash:base64:5]!postcss'
+        '&localIdentName=[name]__[local]___[hash:base64:5]!postcss'
       ]
     }, {
       test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
       loader: 'url-loader?limit=10000&name=assets/[hash].[ext]'
+    },
+    {
+      test: /\.(eot|svg|ttf|woff|woff2)$/,
+      loader: 'file?name=public/fonts/[name].[ext]'
     }]
   },
   postcss: () => [precss, autoprefixer],

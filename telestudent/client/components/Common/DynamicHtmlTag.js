@@ -27,7 +27,7 @@ class DynamicHtmlTag extends Component {
         }
         return (
             <Cell col={12}>
-                <Cell col={12} style={{ "max-height": "500px", "overflow": "auto" }}>
+                <Cell col={12} style={{ "height": "auto", "max-height": "50%", "overflow": "auto" }}>
                     {typeof this.props.data != "undefined" && typeof this.props.data.cheapter != "undefined" ? <span className="indextext">{this.props.data.cheapter}</span> : null}
                     {typeof this.props.data != "undefined" ? booksData.map(it => {
                         let item = this.props.data.content[it];
@@ -38,7 +38,7 @@ class DynamicHtmlTag extends Component {
                             return <Math item={item} />
                         }
                         else if (parseInt(item.metadataId) === 5) {
-                          return <LoadJSFile item={item} />
+                            return <LoadJSFile item={item} />
                         }
                         else {
                             let Tag = this.findTagName(item.metadataId);
