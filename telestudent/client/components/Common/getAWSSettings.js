@@ -8,13 +8,13 @@ var poolData = {
     UserPoolId: appConfig.UserPoolId,
     ClientId: appConfig.ClientId
 };
-
 AWS.config.update({ region: appConfig.region });
 const userPool = new AWSCognito.CognitoUserPool(poolData);
 
 function getUserPool() {
     return userPool;
 }
+
 function getcognitoUser(username) {
     var userData = {
         Username: username,
@@ -22,6 +22,7 @@ function getcognitoUser(username) {
     };
     return new AWSCognito.CognitoUser(userData);
 }
+
 function getAutheticationDetails(username, password) {
     var authenticationData = {
         Username: username,
@@ -29,42 +30,24 @@ function getAutheticationDetails(username, password) {
     };
     return new AWSCognito.AuthenticationDetails(authenticationData);
 }
+
 function getCredentials(userToken, callback) {
     console.log("Getting temporary credentials");
-
     var logins = {};
-
     logins[
         "cognito-idp." + appConfig.region + ".amazonaws.com/" + appConfig.UserPoolId
     ] = userToken;
-
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
         IdentityPoolId: appConfig.IdentityPoolId,
         Logins: logins
     });
-
     AWS.config.credentials.get(function (err) {
         if (err) {
-
             console.log(err.message ? err.message : err);
             return;
         }
-
         callback();
     });
-}
-function getAllBucket() {
-    var s3 = new AWS.S3();
-
-    s3.listBuckets(function (err, data) {
-        console.log(err);
-    })
-}
-function getSession() {
-    return session;
-}
-function storeSession(apigClient) {
-    session = apigClient;
 }
 function makeAPIRequest(pathTemplate, callback) {
     var apigClient;
@@ -94,21 +77,10 @@ function makeAPIRequest(pathTemplate, callback) {
             callback(null);
         });
 }
-function streamToString(stream, cb) {
-    const chunks = [];
-    stream.on('data', (chunk) => {
-        chunks.push(chunk.toString());
-    });
-    stream.on('end', () => {
-        cb(chunks.join(''));
-    });
-}
 export {
     getUserPool,
     getcognitoUser,
     getAutheticationDetails,
-    streamToString,
     getCredentials,
-    makeAPIRequest,
-    getAllBucket
+    makeAPIRequest
 }

@@ -3,49 +3,34 @@ import { Grid, Cell, Textfield, Button } from 'react-mdl';
 import Page from '../Page/PageComponent';
 import toastr from 'toastr';
 import PropTypes from 'prop-types';
-import { Config, CognitoIdentityCredentials } from "aws-sdk";
-import { CognitoUserPool, CognitoUserAttribute, CognitoUser } from "amazon-cognito-identity-js";
-import appConfig from "../../config";
-Config.region = appConfig.region;
-
-Config.credentials = new CognitoIdentityCredentials({
-    IdentityPoolId: appConfig.IdentityPoolId
-});
-
-const userPool = new CognitoUserPool({
-    UserPoolId: appConfig.UserPoolId,
-    ClientId: appConfig.ClientId,
-});
-var cognitoUser;
+import { getcognitoUser } from '../Common/getAWSSettings';
+import Loader from '../Common/Loader';
 export default class AutheticateByCode extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             authcode: '',
-
+            isLoad: false
         }
-        console.log(this.props);
-        var userData = {
-            Username: this.props.params.email,
-            Pool: userPool
-        };
-        cognitoUser = new CognitoUser(userData);
         this.handleAuthetication = this.handleAuthetication.bind(this);
         this.resendOTP = this.resendOTP.bind(this);
     }
     handleAuthetication() {
+        this.setState({ isLoad: true });
+        var cognitoUser = getcognitoUser(this.props.params.email);
         cognitoUser.confirmRegistration(this.state.authcode, true, function (err, result) {
+            this.setState({ isLoad: false });
             if (err) {
                 toastr.error(err);
                 return;
             }
             else {
-                this.context.router.push('/home');
+                this.context.router.push('/');
             }
-
         }.bind(this));
     }
     resendOTP() {
+        var cognitoUser = getcognitoUser(this.props.params.email);
         cognitoUser.resendConfirmationCode(function (err, result) {
             if (err) {
                 toastr.error(err);
@@ -54,12 +39,12 @@ export default class AutheticateByCode extends React.Component {
             else {
                 toastr.success("Re send successfully !!");
             }
-
         });
     }
     render() {
         return (
             <div className="loading">
+                {this.state.isLoad ? <Loader /> : null}
                 <Page heading='OTP Autetication'>
                     <div style={{ width: '70%', margin: 'auto' }}>
                         <Grid>

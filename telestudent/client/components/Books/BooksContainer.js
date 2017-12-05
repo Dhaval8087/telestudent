@@ -7,7 +7,7 @@ import Constants from '../Constants';
 import Loader from '../Common/Loader';
 import './BooksContainer.css';
 import toastr from 'toastr';
-import { downloadBookJson, downloadAllBooksInformatino } from './DownloadBook';
+import { downloadBookJson, downloadAllBooksInformation } from './DownloadBook';
 import { getBook, getAllbookInfo, removeBook } from '../Home/LocalDb';
 var localFiles = []
 class BooksContainer extends Component {
@@ -28,7 +28,7 @@ class BooksContainer extends Component {
         getAllbookInfo((local) => {
             localFiles = local;
             console.log(localFiles);
-            downloadAllBooksInformatino((result) => {
+            downloadAllBooksInformation((result) => {
                 this.state.books = result;
                 this.checkLocalBook();
                 this.setState({ books: this.state.books, isLoad: false });

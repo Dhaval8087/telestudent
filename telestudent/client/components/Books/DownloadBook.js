@@ -3,7 +3,7 @@ import { makeAPIRequest } from '../Common/getAWSSettings';
 import Constants from '../Constants';
 import { storeBook, storeAllbooksInfo, removeBook } from '../Home/LocalDb';
 
-function downloadAllBooksInformatino(callback) {
+function downloadAllBooksInformation(callback) {
     // make API call for download all books information from the aws.
     makeAPIRequest(Constants.allBooks, (result) => {
         callback(result.books);
@@ -51,5 +51,5 @@ function downloadPages(bookName, page, pageNo, callback) {
 }
 export {
     downloadBookJson,
-    downloadAllBooksInformatino
+    downloadAllBooksInformation
 }

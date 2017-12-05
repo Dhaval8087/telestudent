@@ -10,9 +10,7 @@ import {
   getcognitoUser,
   getAutheticationDetails,
   getCredentials,
-  streamToString,
-  makeRequest,
-  getAllBucket
+  makeRequest
 } from '../Common/getAWSSettings';
 export default class Login extends React.Component {
   constructor(props) {
@@ -28,7 +26,6 @@ export default class Login extends React.Component {
     if (this.state.username != '' && this.state.password != '') {
 
       this.setState({ isLoad: true });
-    
       var cognitoUser = getcognitoUser(this.state.username);
       cognitoUser.authenticateUser(getAutheticationDetails(this.state.username, this.state.password), {
         onSuccess: (result) => {
@@ -54,7 +51,6 @@ export default class Login extends React.Component {
         {this.state.isLoad ? <Loader /> : null}
         <Page heading='Sign in to continue to TeleStudent' >
           <div style={{ width: '70%', margin: 'auto' }} >
-
             <Grid>
               <div style={{ margin: 'auto' }}>
                 <Cell col={12}>
@@ -68,7 +64,6 @@ export default class Login extends React.Component {
                   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                <Link to='/signup'> <Button style={{ textAlign: 'right' }} primary raised accent >SignUp</Button></Link>
                 </Cell>
-
               </div>
             </Grid>
           </div>

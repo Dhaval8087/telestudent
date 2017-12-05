@@ -24,17 +24,14 @@ function storeBook(bookName, page, pageNo) {
         content: page
     }
     book.insert(bookDetail, function (err, docs) {
-
     }.bind(this));
 }
 function storeAllbooksInfo(bookid, callback) {
-
     var allbook = new Datastore({ filename: "books.db", autoload: true });
     allbook.remove({}, { multi: true }, function (err, num) { });
     var book = {
         id: bookid
     };
-
     allbook.insert(book, function (err, docs) {
         callback();
     })

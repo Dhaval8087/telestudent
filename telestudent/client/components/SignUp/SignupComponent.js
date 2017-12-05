@@ -3,19 +3,9 @@ import { Grid, Cell, Textfield, Button } from 'react-mdl';
 import Page from '../Page/PageComponent';
 import toastr from 'toastr';
 import PropTypes from 'prop-types';
-import { Config, CognitoIdentityCredentials } from "aws-sdk";
 import { CognitoUserPool, CognitoUserAttribute } from "amazon-cognito-identity-js";
-import appConfig from "../../config";
-Config.region = appConfig.region;
-
-Config.credentials = new CognitoIdentityCredentials({
-  IdentityPoolId: appConfig.IdentityPoolId
-});
-
-const userPool = new CognitoUserPool({
-  UserPoolId: appConfig.UserPoolId,
-  ClientId: appConfig.ClientId,
-});
+import { getcognitoUser, getUserPool } from '../Common/getAWSSettings';
+import Loader from '../Common/Loader';
 
 export default class Signup extends React.Component {
   constructor() {
@@ -23,7 +13,8 @@ export default class Signup extends React.Component {
     this.state = {
       username: '',
       password: '',
-      repassword: ''
+      repassword: '',
+      isLoad: false
     }
     this.handleSignUp = this.handleSignUp.bind(this);
     this.cancel = this.cancel.bind(this)
@@ -33,6 +24,8 @@ export default class Signup extends React.Component {
       toastr.error('Password not matched !!');
     }
     else {
+      this.setState({ isLoad: true });
+      const userPool = getUserPool(this.state.username);
       const email = this.state.username;
       const password = this.state.password;
       const attributeList = [
@@ -47,6 +40,7 @@ export default class Signup extends React.Component {
           return;
         }
         toastr.success('user is created ' + result.user.getUsername());
+        this.setState({ isLoad: false });
         this.context.router.push({    // use push
           pathname: `/auth/${result.user.getUsername()}`,
         });
@@ -59,6 +53,7 @@ export default class Signup extends React.Component {
   render() {
     return (
       <div className="loading">
+        {this.state.isLoad ? <Loader /> : null}
         <Page heading='Signup'>
           <div style={{ width: '70%', margin: 'auto' }}>
             <Grid>

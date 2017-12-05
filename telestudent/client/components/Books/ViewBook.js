@@ -41,7 +41,6 @@ class ViewBook extends Component {
     }
     handlePageNavigation(pageNo) {
         getBook(this.state.book, pageNo, (result) => {
-
             if (typeof result == "undefined") {
                 this.setState({ isLoad: true });
                 downloadBookJson(Constants.parentUrl + this.state.book + ".json", (result) => {
@@ -65,15 +64,9 @@ class ViewBook extends Component {
                 else {
                     this.state.isPrev = false;
                 }
-
                 this.setState({ index: this.state.index, data: result.content, isNext: this.state.isNext, isPrev: this.state.isPrev });
             }
-
-
         });
-
-
-
     }
     nextPage() {
         let pageNo = this.state.pageNo;
