@@ -107,7 +107,7 @@ class BooksContainer extends Component {
                     <Grid>
                         {
                             this.state.books.map((item) => {
-                                const imageUrl = require(`../../assets/${item.id}.png`);
+                                //const imageUrl = require(`../../assets/${item.id}.png`);
                                 var buttonText;
                                 if ((item.isLocal != undefined && item.isLocal) || item.isDownloaded) {
                                     buttonText = "View Book";

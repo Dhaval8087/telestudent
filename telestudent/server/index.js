@@ -2,7 +2,6 @@
 import path from 'path';
 import webpack from 'webpack';
 import express from 'express';
-import graphQLHTTP from 'express-graphql';
 import WebpackDevServer from 'webpack-dev-server';
 import historyApiFallback from 'connect-history-api-fallback';
 import chalk from 'chalk';
