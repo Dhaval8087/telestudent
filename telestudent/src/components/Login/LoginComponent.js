@@ -11,7 +11,7 @@ import {
   getAutheticationDetails,
   getCredentials
 } from '../Common/getAWSSettings';
-export default class Login extends React.Component {
+export default class Login extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,8 +25,7 @@ export default class Login extends React.Component {
     if (this.state.username !== '' && this.state.password !== '') {
 
       this.setState({ isLoad: true });
-      this.state.username = 'erdhavalpatel@yahoo.com';
-      this.state.password = "Thomson123*";
+      
       var cognitoUser = getcognitoUser(this.state.username);
       cognitoUser.authenticateUser(getAutheticationDetails(this.state.username, this.state.password), {
         onSuccess: (result) => {

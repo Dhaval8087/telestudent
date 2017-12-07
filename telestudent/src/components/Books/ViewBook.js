@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { Component } from 'react'
+import React, { Component, PureComponent } from 'react'
 import { getBook, getbookTotalPages } from '../LocalDB/LocalDb';
 import { downloadBookJson } from './DownloadBook';
 import Page from '../Page/PageComponent';
@@ -10,7 +10,7 @@ import Constants from '../Constants';
 import { Grid, Cell } from 'react-mdl';
 import './ViewBook.css';
 //var pageNo = 0;
-class ViewBook extends Component {
+class ViewBook extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
